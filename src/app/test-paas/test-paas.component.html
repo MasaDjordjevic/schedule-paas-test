@@ -1,0 +1,8 @@
+<h1 *ngIf="display">{{paas.name}}</h1>
+
+
+<app-test-instance *ngFor="let test of paas.tests; let i = index"
+                   [serverUrl]="paas.serverUrl"
+                   [(test)]="paas.tests[i]"
+                   [averagePoints]="paas.averagePoints"></app-test-instance>
+

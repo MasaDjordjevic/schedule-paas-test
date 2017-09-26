@@ -1,0 +1,9 @@
+<p *ngIf="display">
+  <b>{{test.title}}</b>: {{testCounter}} /  {{test.testCount}} | Failures: {{this.failures}}
+  <br>
+  Min: {{this.min}}; Max: {{this.max}}; Avg: {{this.avg}}
+  <br>
+  <span *ngFor="let avgDuration of averageDurations; let i = index">
+      Avg {{averagePoints[i]}}: {{avgDuration}}
+  </span>
+</p>

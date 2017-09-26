@@ -1,0 +1,32 @@
+:host > div:first-child {
+  display: flex;
+}
+
+:host {
+  padding: 20px;
+}
+
+
+.mdl-data-table {
+  margin: 0 auto;
+}
+
+.test-name {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.th-test-name {
+  text-align: left;
+}
+
+.bold {
+  font-weight: 800;
+}
+
+.green {
+  color: lightgreen;
+}
+.red {
+  color: red;
+}

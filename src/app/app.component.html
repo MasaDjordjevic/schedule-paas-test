@@ -1,35 +1,53 @@
 <div>
-  <div *ngFor="let paas of paasArray; let i = index;" class="paas">
-    <app-test-paas
-      [(paas)]="paasArray[i]"></app-test-paas>
+  <div>
+    <div *ngFor="let paas of paasArray; let i = index;" class="paas">
+      <app-test-paas
+        [(paas)]="paasArray[i]"></app-test-paas>
+    </div>
+  </div>
+
+  <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+    <thead>
+    <th class="th-test-name">Test</th>
+    <th></th>
+    <th>Status</th>
+    <th>Failures</th>
+    <th>Min</th>
+    <th>Max</th>
+    <th class="bold">Avg</th>
+    <th *ngFor="let point of averagePoints">{{point}}</th>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let test of tests; let t = index">
+      <tr *ngFor="let paas of paasArray; let p = index">
+        <td *ngIf="p===0" [attr.rowspan]="p===0 ? 2 : 1" class="test-name">{{tests[t].title}}</td>
+        <td>{{paasArray[p].name}}</td>
+        <td>{{paasArray[p].tests[t]?.result?.testCounter}} / {{tests[t].testCount}}</td>
+        <td class="{{paasArray[p].tests[t]?.result?.failures === 0 ? 'green' : 'red'}}">
+          {{paasArray[p].tests[t]?.result?.failures}}
+        </td>
+        <td>{{paasArray[p].tests[t]?.result?.min}}</td>
+        <td>{{paasArray[p].tests[t]?.result?.max}}</td>
+        <td class="bold">{{paasArray[p].tests[t]?.result?.avg | number : '1.0-0'}}</td>
+        <td *ngFor="let point of averagePoints; let a = index">{{paasArray[p].tests[t]?.result?.averageDurations[a] |
+          number : '1.0-0'}}
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+
+
+  <div class="barChart">
+    <app-bar-chart [barChartLabels]="barChartNames"
+                   [barChartData]="barChartData"></app-bar-chart>
+  </div>
+
+
+</div>
+<div class="averageChartsContainer">
+  <div class="averageChart">
+    <app-average-chart *ngFor="let test of tests" [averageChartLabels]="averagePoints"
+                       [averageChartData]="averageCartData(test.title)"></app-average-chart>
   </div>
 </div>
-
-<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
-  <thead>
-  <th class="th-test-name">Test</th>
-  <th></th>
-  <th>Status</th>
-  <th>Failures</th>
-  <th>Min</th>
-  <th>Max</th>
-  <th class="bold">Avg</th>
-  <th *ngFor="let point of averagePoints">{{point}}</th>
-  </thead>
-  <tbody>
-  <ng-container *ngFor="let test of tests; let t = index">
-    <tr *ngFor="let paas of paasArray; let p = index">
-      <td *ngIf="p===0" [attr.rowspan]="p===0 ? 2 : 1" class="test-name">{{tests[t].title}}</td>
-      <td>{{paasArray[p].name}}</td>
-      <td>{{paasArray[p].tests[t]?.result?.testCounter}} / {{tests[t].testCount}}</td>
-      <td class="{{paasArray[p].tests[t]?.result?.failures === 0 ? 'green' : 'red'}}">{{paasArray[p].tests[t]?.result?.failures}}</td>
-      <td>{{paasArray[p].tests[t]?.result?.min}}</td>
-      <td>{{paasArray[p].tests[t]?.result?.max}}</td>
-      <td class="bold">{{paasArray[p].tests[t]?.result?.avg | number : '1.2-2'}}</td>
-      <td *ngFor="let point of averagePoints; let a = index">{{paasArray[p].tests[t]?.result?.averageDurations[a] |
-        number : '1.2-2'}}
-      </td>
-    </tr>
-  </ng-container>
-  </tbody>
-</table>

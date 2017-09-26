@@ -1,14 +1,30 @@
 :host > div:first-child {
   display: flex;
+  flex-wrap: wrap;
 }
 
 :host {
-  padding: 20px;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+
 }
 
-
 .mdl-data-table {
-  margin: 0 auto;
+  margin: 10px;
+  max-width: 50%;
+  box-sizing: border-box;
+}
+
+tr, td {
+  height: 30px !important;
+  text-align: center !important;
+  font-size: 12px;
+}
+
+td {
+  padding: 8px 11px;
 }
 
 .test-name {
@@ -27,6 +43,26 @@
 .green {
   color: lightgreen;
 }
+
 .red {
   color: red;
+}
+
+.barChart {
+  margin: 10px;
+  box-sizing: border-box;
+  width: 50%;
+  max-height: 416px;
+
+}
+
+.averageChart {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+app-average-chart {
+  width: 472px;
+  height: 235px;
+  margin: 10px;
 }

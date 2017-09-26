@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {MainService} from './main.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -50,15 +51,47 @@ export class AppComponent implements OnInit {
 
 
   constructor(private mainService: MainService) {
-      this.paasArray.forEach(paas => {
-        paas.averagePoints = this.averagePoints;
-        paas.tests = JSON.parse(JSON.stringify(this.tests));
+    this.paasArray.forEach(paas => {
+      paas.averagePoints = this.averagePoints;
+      paas.tests = JSON.parse(JSON.stringify(this.tests));
 
-      });
+    });
 
   }
 
   ngOnInit() {
+  }
+
+  get testNames() {
+    return this.tests.map(a => a.title);
+  }
+
+  get barChartNames() {
+    return this.testNames.slice(0, -1);
+  }
+
+  get barChartData() {
+    let ret = [];
+    this.paasArray.forEach(paas => {
+      ret.push({
+        data: paas.tests.map(a => a.result ? a.result.avg : 0).slice(0, -1),
+        label: paas.name
+      });
+    });
+    return ret;
+  }
+
+  averageCartData(testName) {
+    let ret = [];
+    this.paasArray.forEach(paas => {
+      const arr = paas.tests.map(a => (a.title === testName && a.result) ? a.result.averageDurations : null).filter(a => a);
+      const arr2 = arr.length ? arr[0] : arr;
+      ret.push({
+        data: arr2,
+        label: paas.name
+      });
+    });
+    return ret;
   }
 
 }

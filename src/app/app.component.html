@@ -1,10 +1,22 @@
+<header>
+  <span>Test instances:</span><input  [(ngModel)]="inputs.testCount" type="number">
+  <button (click)="this.inputs.start = !this.inputs.start; this.inputs.restart = false"><i class="material-icons">{{inputs.start ?  'pause' : 'play_arrow' }}</i></button>
+  <button md-raised-button (click)="this.inputs.start = false; this.inputs.restart = true"><i class="material-icons">replay</i></button>
+</header>
 <div>
-  <div>
-    <div *ngFor="let paas of paasArray; let i = index;" class="paas">
-      <app-test-paas
-        [(paas)]="paasArray[i]"></app-test-paas>
-    </div>
+  <div *ngFor="let paas of paasArray; let i = index;" class="paas">
+    <app-test-instance #testIn
+                       *ngFor="let test of paas.tests; let i = index"
+                       [serverUrl]="paas.serverUrl"
+                       [(test)]="paas.tests[i]"
+                       [averagePoints]="averagePoints"
+                       [display]="false"
+                       [(start)]="inputs.start"
+                       [(restart)]="inputs.restart"></app-test-instance>
   </div>
+</div>
+
+<div *ngIf="true" class="flex-row">
 
   <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
     <thead>
@@ -22,14 +34,14 @@
       <tr *ngFor="let paas of paasArray; let p = index">
         <td *ngIf="p===0" [attr.rowspan]="p===0 ? 2 : 1" class="test-name">{{tests[t].title}}</td>
         <td>{{paasArray[p].name}}</td>
-        <td>{{paasArray[p].tests[t]?.result?.testCounter}} / {{tests[t].testCount}}</td>
+        <td>{{paasArray[p].tests[t]?.result?.testCounter}} / {{paasArray[p].tests[t].testCount.testCount}}</td>
         <td class="{{paasArray[p].tests[t]?.result?.failures === 0 ? 'green' : 'red'}}">
           {{paasArray[p].tests[t]?.result?.failures}}
         </td>
         <td>{{paasArray[p].tests[t]?.result?.min}}</td>
         <td>{{paasArray[p].tests[t]?.result?.max}}</td>
         <td class="bold">{{paasArray[p].tests[t]?.result?.avg | number : '1.0-0'}}</td>
-        <td *ngFor="let point of averagePoints; let a = index">{{paasArray[p].tests[t]?.result?.averageDurations[a] |
+        <td *ngFor="let point of averagePoints; let a = index">{{paasArray[p]?.tests[t]?.result?.averageDurations[a] |
           number : '1.0-0'}}
         </td>
       </tr>
@@ -45,9 +57,14 @@
 
 
 </div>
-<div class="averageChartsContainer">
+<div *ngIf="true" class="averageChartsContainer">
   <div class="averageChart">
     <app-average-chart *ngFor="let test of tests" [averageChartLabels]="averagePoints"
                        [averageChartData]="averageCartData(test.title)"></app-average-chart>
   </div>
+</div>
+
+<div *ngIf="false">
+  <h1>service test</h1>
+  {{testArray | json}}
 </div>

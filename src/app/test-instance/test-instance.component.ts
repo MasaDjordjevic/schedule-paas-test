@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {MainService} from '../main.service';
 
 @Component({
@@ -6,19 +6,42 @@ import {MainService} from '../main.service';
   templateUrl: './test-instance.component.html',
   styleUrls: ['./test-instance.component.css']
 })
-export class TestInstanceComponent implements OnInit {
+export class TestInstanceComponent implements OnInit, OnChanges {
 
   @Input() serverUrl;
   @Input() test;
   @Output() testChange = new EventEmitter();
   @Input() averagePoints = [10, 30, 50, 100, 150, 250, 400, 500, 750, 1000];
   @Input() display = false;
+  @Input() start = false;
+  @Input() restart = false;
+  @Input() restartChnage = new EventEmitter();
+  @Output() startChange = new EventEmitter();
   durations: number[] = [];
   failures = 0;
   testCounter = 0;
   averageDurations: number[] = [];
 
   constructor(private mainService: MainService) { }
+
+  ngOnChanges() {
+    if (this.start && this.testCounter === 0) {
+      this.reset();
+    }
+    if (this.start) {
+      this.runTests();
+      this.restart = false;
+      this.restartChnage.emit(this.restart);
+    }
+
+    if (this.restart) {
+      this.reset();
+      this.start = false;
+      this.restart = false;
+      this.restartChnage.emit(this.restart);
+      this.startChange.emit(this.start);
+    }
+  }
 
   get min() {
     return Math.min(...this.durations);
@@ -32,8 +55,17 @@ export class TestInstanceComponent implements OnInit {
     return this.durations.length ? this.durations.reduce((a, b) => a + b) / this.durations.length : 0;
   }
 
+  reset() {
+    this.durations = [];
+    this.failures = 0;
+    this.testCounter = 0;
+    this.averageDurations = [];
+    this.test.result = this.testResult;
+    this.testChange.emit(this.test);
+  }
+
   ngOnInit() {
-    this.runTests();
+    // this.runTests();
   }
 
 
@@ -52,7 +84,7 @@ export class TestInstanceComponent implements OnInit {
       this.test.result = this.testResult;
       this.testChange.emit(this.test);
 
-      if (this.testCounter < this.test.testCount) {
+      if (this.testCounter < this.test.testCount.testCount && this.start) {
         this.runTests();
       }
     });

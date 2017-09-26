@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {MainService} from './main.service';
-import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-root',
@@ -12,27 +11,31 @@ export class AppComponent implements OnInit {
   azureTest: string;
   appharborTest: string;
 
-  testCount = 40;
+  inputs = {
+    start: false,
+    restart: false,
+    testCount: 40
+  };
 
   tests = [
-    {title: 'trivial', testUrl: '/api/values', testCount: this.testCount},
-    {title: 'simple data access', testUrl: '/api/classrooms/getclassrooms', testCount: this.testCount},
-    {title: 'moderate data access', testUrl: '/api/departments/getdepartmentsbyyear', testCount: this.testCount},
+    {title: 'trivial', testUrl: '/api/values'},
+    {title: 'simple data access', testUrl: '/api/classrooms/getclassrooms'},
+    {title: 'moderate data access', testUrl: '/api/departments/getdepartmentsbyyear'},
     {
       title: 'medium data access',
-      testUrl: '/api/classrooms/getschedule?classroomID=11&weeksFromNow=0',
-      testCount: this.testCount
+      testUrl: '/api/classrooms/getschedule?classroomID=11&weeksFromNow=0'
     },
     {
       title: 'heavy data access',
-      testUrl: '/api/students/getschedule?studentID=2634&weeksFromNow=2',
-      testCount: this.testCount
+      testUrl: '/api/students/getschedule?studentID=2634&weeksFromNow=2'
     }
   ];
 
   averagePointsStatic = [10, 30, 50, 100, 150, 250, 400, 500, 750, 1000];
 
-  averagePoints = this.averagePointsStatic.filter(a => a < this.testCount)
+  get averagePoints() {
+    return this.averagePointsStatic.filter(a => a < this.inputs.testCount);
+  }
 
   paasArray = [
     {
@@ -49,14 +52,14 @@ export class AppComponent implements OnInit {
     }
   ];
 
+  testArray = [];
 
   constructor(private mainService: MainService) {
     this.paasArray.forEach(paas => {
       paas.averagePoints = this.averagePoints;
       paas.tests = JSON.parse(JSON.stringify(this.tests));
-
+      paas.tests.forEach(t => t.testCount = this.inputs);
     });
-
   }
 
   ngOnInit() {
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit {
     return this.testNames.slice(0, -1);
   }
 
-  get barChartData() {
+  get   barChartData() {
     let ret = [];
     this.paasArray.forEach(paas => {
       ret.push({

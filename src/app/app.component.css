@@ -96,6 +96,10 @@ td {
   padding: 8px 11px;
 }
 
+tr:nth-child(even) {
+  background-color: rgba(19, 176, 76, 0.05);
+}
+
 .test-name {
   text-align: left !important;
   vertical-align: middle;

@@ -14,7 +14,7 @@ export class AppComponent implements OnInit {
   inputs = {
     start: false,
     restart: false,
-    testCount: 40
+    testCount: 35
   };
 
   tests = [

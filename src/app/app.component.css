@@ -1,6 +1,7 @@
 .flex-row {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 :host {
@@ -72,7 +73,7 @@ header button i {
 
 .mdl-data-table {
   margin: 10px;
-  max-width: 50%;
+  max-width: calc(50% - 25px);
   box-sizing: border-box;
 }
 
@@ -109,8 +110,9 @@ td {
 
 .barChart {
   margin: 10px;
+  display: block;
   box-sizing: border-box;
-  width: 50%;
+  width: calc(50% - 25px);
   max-height: 416px;
 
 }

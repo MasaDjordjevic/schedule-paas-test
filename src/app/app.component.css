@@ -70,6 +70,15 @@ header button i {
   vertical-align: middle;
 }
 
+.info {
+  color: rgba(0, 0, 0, 0.59);
+  margin: 0 35px 0 auto;
+}
+
+.infoButton {
+  margin: 0 10px 0 auto;
+}
+
 
 .mdl-data-table {
   margin: 10px;

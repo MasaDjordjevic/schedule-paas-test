@@ -2,7 +2,13 @@
   <span>Test instances:</span><input  [(ngModel)]="inputs.testCount" type="number">
   <button (click)="this.inputs.start = !this.inputs.start; this.inputs.restart = false"><i class="material-icons">{{inputs.start ?  'pause' : 'play_arrow' }}</i></button>
   <button md-raised-button (click)="this.inputs.start = false; this.inputs.restart = true"><i class="material-icons">replay</i></button>
+
+  <h6 class="info">Azure and AppHarbor comparison</h6>
+  <button md-raised-button class="infoButton" (click)="info = !info">Info</button>
 </header>
+
+<app-info *ngIf="info" class="mdl-shadow--2dp"></app-info>
+
 <div>
   <div *ngFor="let paas of paasArray; let i = index;" class="paas">
     <app-test-instance #testIn

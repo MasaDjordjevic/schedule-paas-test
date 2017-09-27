@@ -11,6 +11,8 @@ export class AppComponent implements OnInit {
   azureTest: string;
   appharborTest: string;
 
+  info = false; // display info box
+
   inputs = {
     start: false,
     restart: false,

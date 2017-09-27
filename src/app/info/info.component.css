@@ -1,0 +1,13 @@
+:host {
+  background-color: #fff;
+  width: 50%;
+  margin: 10px;
+  box-sizing: border-box;
+  padding: 20px;
+  color:rgba(32, 31, 31, 0.8);
+}
+
+p {
+  text-align: justify;
+  margin-bottom: 7px;
+}

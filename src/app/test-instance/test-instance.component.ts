@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MainService} from '../main.service';
 
 @Component({
@@ -15,8 +15,6 @@ export class TestInstanceComponent implements OnInit, OnChanges {
   @Input() display = false;
   @Input() start = false;
   @Input() restart = false;
-  @Input() restartChnage = new EventEmitter();
-  @Output() startChange = new EventEmitter();
   durations: number[] = [];
   failures = 0;
   testCounter = 0;
@@ -24,22 +22,20 @@ export class TestInstanceComponent implements OnInit, OnChanges {
 
   constructor(private mainService: MainService) { }
 
-  ngOnChanges() {
-    if (this.start && this.testCounter === 0) {
-      this.reset();
-    }
-    if (this.start) {
-      this.runTests();
-      this.restart = false;
-      this.restartChnage.emit(this.restart);
-    }
-
-    if (this.restart) {
-      this.reset();
-      this.start = false;
-      this.restart = false;
-      this.restartChnage.emit(this.restart);
-      this.startChange.emit(this.start);
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propertyName in changes) {
+      if (propertyName === 'start') {
+        if (this.start && this.testCounter === 0) {
+          this.reset();
+        }
+        if (this.start) {
+          this.runTests();
+        }
+      } else if (propertyName === 'restart') {
+        if (this.restart) {
+          this.reset();
+        }
+      }
     }
   }
 

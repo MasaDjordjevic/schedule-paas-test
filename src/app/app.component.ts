@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   averagePointsStatic = [10, 30, 50, 100, 150, 250, 400, 500, 750, 1000];
 
   get averagePoints() {
-    return this.averagePointsStatic.filter(a => a < this.inputs.testCount);
+    return this.averagePointsStatic.filter(a => a <= this.inputs.testCount);
   }
 
   paasArray = [
